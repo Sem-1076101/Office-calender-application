@@ -1,3 +1,46 @@
+# Opstarten
+
+> Kijk of je Node.js gedownload hebt, test dit met het volgende: 
+
+> node -v ||
+> npm -v 
+
+Dit kan je gewoon in je terminal invoeren.
+Heb je het niet gedownload volg dan dit:
+
+# Node.js installeren
+
+Ga naar de officiële website
+https://nodejs.org/
+
+Kies de juiste versie
+
+Je ziet meestal twee opties:
+
+LTS (Long Term Support) → aanbevolen voor de meeste gebruikers
+
+Current → nieuwste versie, kan iets experimenteler zijn
+
+Kies LTS en download voor jouw besturingssysteem (Windows/macOS/Linux).
+
+Installeer Node.js
+
+Open het gedownloade bestand en volg de installatie-instructies.
+
+Zorg dat “Add to PATH” aangevinkt is (dit staat meestal standaard aan).
+
+Controleer of Node.js werkt
+Open een terminal of command prompt en typ:
+
+> Als je de repo gecloned hebt, run dan het command: 
+* npm install
+* npm run dev
+
+
+
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
