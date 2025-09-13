@@ -1,21 +1,26 @@
 // src/components/common/Header/Header.tsx
-import { Navbar, Container, Nav } from 'react-bootstrap';
 
 const Header = () => {
     return (
-        <Navbar bg="dark" variant="dark" expand="lg">
-            <Container fluid>
-                <Navbar.Brand href="/">Office Calendar App</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ms-auto">
-                        <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-                        <Nav.Link href="/medewerkers">Medewerkers</Nav.Link>
-                        <Nav.Link href="/evenementen">Evenementen</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+        <div className="container">
+            <header
+                className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
+                <div className="col-md-3 mb-2 mb-md-0">
+                    <a href="/" className="d-inline-flex link-body-emphasis text-decoration-none">
+                    <img src="/src/assets/images/logo.jpeg" alt="Logo" width="75" height="75" />
+                </a></div>
+                <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
+                    <li><a href="#" className="nav-link px-2">Dashboard</a></li>
+                    <li><a href="#" className="nav-link px-2">Calendar</a></li>
+                    <li><a href="#" className="nav-link px-2">Events</a></li>
+                </ul>
+                <div className="col-md-3 text-end">
+                    <button type="button" className="btn btn-outline-primary me-2">Login</button>
+                    <button type="button" className="btn btn-primary">Sign-up</button>
+                </div>
+            </header>
+        </div>
     );
 };
 
