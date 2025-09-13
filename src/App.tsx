@@ -1,11 +1,16 @@
 // src/App.tsx
 import Layout from './components/common/Layout/Layout';
+import Hero from './components/common/Hero/Hero';
 
 function App() {
     return (
         <Layout>
-            <h2>Test - Dit is de content</h2>
-            <p>Hallo Wereld</p>
+            <Hero
+                title="Office Calendar"
+                subtitle="Plan your workweek and events in one place."
+                backgroundImage="/src/assets/images/hero-background.png"
+                height="500px"
+            />
         </Layout>
     );
 }
