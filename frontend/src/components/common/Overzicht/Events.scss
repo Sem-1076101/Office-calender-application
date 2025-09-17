@@ -1,0 +1,54 @@
+.table-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: 150px;
+}
+
+.event-card {
+  background-image: url('/src/assets/images/event-image.png');
+  border-radius: 15px;
+  width: 400px;
+  height: 300px;
+  padding: 10px;
+  position: relative;
+}
+
+.event-id{
+  position: absolute;
+  left: 20px;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+.event-name{
+  color: yellow;
+  position: absolute;
+  left: 70px;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+.event-details button{
+  background-color: green;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border: none;
+  position: absolute;
+  font-size: 50px;
+  text-align: center;
+  justify-content: center;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-weight: bold;
+  color: white;
+  left: 70px;
+  bottom: 60px;
+}
+
+.table-title{
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  padding: 50px;
+}
