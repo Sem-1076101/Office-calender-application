@@ -1,5 +1,11 @@
+$Color-Pallette-1: #CCDBDC;
+$Color-Pallette-2: #80CED7;
+$Color-Pallette-3: #63C7B2;
+$Color-Pallette-4:  #8E6C88;
+$Color-Pallette-5: #263d42;
+
 .Border-line-event{
-    background-color: black;
+    background-color: $Color-Pallette-5;
     width: 430px;
     height: 570px;
     margin: 0 auto;
@@ -11,7 +17,7 @@
 }
 
 .main-card-event {
-    background-color: beige;
+    background-color: $Color-Pallette-1;
     width: 480px;
     height: 600px;
     display: flex;
@@ -24,7 +30,7 @@
 }
 
 .inner-event{
-    background-color: beige;
+    background-color: $Color-Pallette-1;
     width: 415px;
     height: 557px;
     margin: 0 auto;
@@ -36,7 +42,7 @@
 }
 
 .underscore-event {
-    background-color: black;
+    background-color: $Color-Pallette-5;
     width: 340px;
     height: 5px; 
     left: 71px;
@@ -47,8 +53,8 @@
 }
 
 .event-id-detail{
-    color: beige;
-    background-color: black;
+    color: $Color-Pallette-5;
+    background-color: $Color-Pallette-3;
     position: absolute;
     width: 65px;
     height: 65px;
@@ -62,7 +68,7 @@
 }
 
 .event-name-detail{
-    color: black;
+    color: $Color-Pallette-5;
     position: absolute;
     top: 30px;
     left: 140px;
@@ -73,6 +79,7 @@
 }
 .event-description-detail{
     position: absolute;
+    color: $Color-Pallette-5;
     left: 70px;
     top: 200px;
     font-size: 30px;
@@ -83,6 +90,7 @@
 
 
 .place-event{
+    color: $Color-Pallette-5;
     font-weight: bold;
     font-size: 40px;
     margin-left: 190px;
@@ -90,7 +98,7 @@
     z-index: 3;
 }
 .place-outer-event{
-    background-color: black;
+    background-color: $Color-Pallette-5;
     margin-left: 100px;
     height: 70px;
     width: 300px;
@@ -98,7 +106,7 @@
     border-radius: 5px;
 }
 .place-inner-event{
-    background-color: beige;
+    background-color: $Color-Pallette-1;
     margin-top: 5px;
     margin-left: 5px;
     height: 60px;
@@ -107,14 +115,15 @@
     border-radius: 5px;
 }
 .date-event{
-   font-weight: bold;
+    font-weight: bold;
+    color: $Color-Pallette-5;
     font-size: 40px;
     z-index: 3;
     margin-left: 180px;
     margin-top: 0px;
 }
 .date-outer-event{
-    background-color: black;
+    background-color: $Color-Pallette-5;
     margin-left: 100px;
     height: 70px;
     width: 300px;
@@ -122,7 +131,7 @@
     border-radius: 5px;
 }
 .date-inner-event{
-    background-color: beige;
+    background-color: $Color-Pallette-1;
     margin-top: 5px;
     margin-left: 5px;
     height: 60px;
@@ -132,6 +141,7 @@
 }
 
 .actual-place-event{
+    color: $Color-Pallette-5;
     font-weight: bold;
     font-size: 30px;
     text-align: center;
@@ -139,6 +149,7 @@
 }
 
 .actual-date-event{
+    color: $Color-Pallette-5;
     font-weight: bold;
     font-size: 30px;
     text-align: center;
@@ -151,19 +162,19 @@
   border-collapse: collapse;
 }
 .paneel-Card-users{
-    box-shadow: 0px 0px 5px green;
+    box-shadow: 0px 0px 5px $Color-Pallette-5;
 }
 .admin-panel-users td {
   padding: 9px;
   text-align: center;
-  background-color: beige;
+  background-color: $Color-Pallette-2;
 }
 
 .admin-panel-users th {
   padding: 15px;
   margin-left: -50px;
   text-align: left;
-  background-color: beige;
+  background-color: $Color-Pallette-2;
 }
 
 .main-users{
@@ -173,9 +184,8 @@
     position: relative;
     height: 150px;
     width: 200px;       /* give some width */
-    background-color: beige;
     border-radius: 20px;
-    box-shadow: 0px 0px 10px beige;
+    box-shadow: 0px 0px 10px $Color-Pallette-5;
     
     overflow-y: auto;   /* vertical scroll */
     overflow-x: auto; /* hide horizontal scroll */

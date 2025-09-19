@@ -43,9 +43,9 @@ const evenementen: Evenement[] = [
   { id: 4, name: "evenement", description: "This is the description for event 4.", place: "online", date: "30/09/2025", users: [users[9], users[10], users[11]]},
   { id: 5, name: "evenement", description: "This is the description for event 5.", place: "online", date: "30/09/2025", users: [users[12], users[13], users[14]]},
   { id: 6, name: "evenement", description: "This is the description for event 6.", place: "online", date: "30/09/2025", users: [users[15], users[16], users[17]]},
-  { id: 7, name: "evenement", description: "This is the description for event 7.", place: "online", date: "30/09/2025", users: [users[18], users[1], users[2]]},
   { id: 8, name: "evenement", description: "This is the description for event 8.", place: "online", date: "30/09/2025", users: [users[0], users[1], users[2]]},
-  { id: 9, name: "evenement", description: "This is the description for event 9.", place: "online", date: "30/09/2025", users: []}
+  { id: 9, name: "evenement", description: "This is the description for event 9.", place: "online", date: "30/09/2025", users: []},
+  { id: 10, name: "evenement", description: "This is the description for event 10.", place: "online", date: "30/09/2025", users: []}
 ];
 
 
