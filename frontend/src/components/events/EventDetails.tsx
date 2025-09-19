@@ -36,6 +36,10 @@ const users: User[] = [
     {id: 17, name: "sdfgrtgrfergree"},
     {id: 18, name: "sdfgrtgrfeerg"}
 ]
+interface User {
+    id?: number;
+    name: string;
+}
 const evenementen: Evenement[] = [
   { id: 1, name: "evenement", description: "This is the description for event 1.", place: "rotterdam", date: "30/09/2025", users: [users[0], users[1], users[2]] },
   { id: 2, name: "evenement", description: "This is the description for event 2.", place: "online", date: "30/09/2025", users: [users[3], users[4], users[5]]},
@@ -43,9 +47,9 @@ const evenementen: Evenement[] = [
   { id: 4, name: "evenement", description: "This is the description for event 4.", place: "online", date: "30/09/2025", users: [users[9], users[10], users[11]]},
   { id: 5, name: "evenement", description: "This is the description for event 5.", place: "online", date: "30/09/2025", users: [users[12], users[13], users[14]]},
   { id: 6, name: "evenement", description: "This is the description for event 6.", place: "online", date: "30/09/2025", users: [users[15], users[16], users[17]]},
-  { id: 7, name: "evenement", description: "This is the description for event 7.", place: "online", date: "30/09/2025", users: [users[18], users[1], users[2]]},
   { id: 8, name: "evenement", description: "This is the description for event 8.", place: "online", date: "30/09/2025", users: [users[0], users[1], users[2]]},
-  { id: 9, name: "evenement", description: "This is the description for event 9.", place: "online", date: "30/09/2025", users: []}
+  { id: 9, name: "evenement", description: "This is the description for event 9.", place: "online", date: "30/09/2025", users: []},
+  { id: 10, name: "evenement", description: "This is the description for event 10.", place: "online", date: "30/09/2025", users: []}
 ];
 
 
@@ -61,23 +65,23 @@ const Event = () => {
     }
   return (
     <div className="main">
-        <div className="Border-line-event"></div>
-        <div className="inner-event"></div>
-        <div key={event.id} className="main-card-event">
+        <div className="Border-line-event-event"></div>
+        <div className="inner-event-event"></div>
+        <div key={event.id} className="main-card-event-event">
             <h1 className="event-id-detail">{event.id}</h1>
             <h2 className="event-name-detail">{event.name}</h2>
-            <div className="underscore-event"></div>
+            <div className="underscore-event-event"></div>
             <p className="event-description-detail">{event.description}</p>
-            <p className="place-event">PLACE</p>
-            <div className="place-outer-event">
-                <div className="place-inner-event">
-                    <p className="actual-place-event">{event.place}</p>
+            <p className="place-event-event">PLACE</p>
+            <div className="place-outer-event-event">
+                <div className="place-inner-event-event">
+                    <p className="actual-place-event-event">{event.place}</p>
                 </div>
             </div>
-            <p className="date-event">DATE</p>
-            <div className="date-outer-event">
-                <div className="date-inner-event">
-                    <p className="actual-date-event">{event.date}</p>
+            <p className="date-event-event">DATE</p>
+            <div className="date-outer-event-event">
+                <div className="date-inner-event-event">
+                    <p className="actual-date-event-event">{event.date}</p>
                 </div>
             </div>
         </div>
