@@ -65,23 +65,23 @@ const Event = () => {
     }
   return (
     <div className="main">
-        <div className="Border-line-event-event"></div>
-        <div className="inner-event-event"></div>
-        <div key={event.id} className="main-card-event-event">
+        <div className="Border-line-event"></div>
+        <div className="inner-event"></div>
+        <div key={event.id} className="main-card-event">
             <h1 className="event-id-detail">{event.id}</h1>
             <h2 className="event-name-detail">{event.name}</h2>
-            <div className="underscore-event-event"></div>
+            <div className="underscore-event"></div>
             <p className="event-description-detail">{event.description}</p>
-            <p className="place-event-event">PLACE</p>
-            <div className="place-outer-event-event">
-                <div className="place-inner-event-event">
-                    <p className="actual-place-event-event">{event.place}</p>
+            <p className="place-event">PLACE</p>
+            <div className="place-outer-event">
+                <div className="place-inner-event">
+                    <p className="actual-place-event">{event.place}</p>
                 </div>
             </div>
-            <p className="date-event-event">DATE</p>
-            <div className="date-outer-event-event">
-                <div className="date-inner-event-event">
-                    <p className="actual-date-event-event">{event.date}</p>
+            <p className="date-event">DATE</p>
+            <div className="date-outer-event">
+                <div className="date-inner-event">
+                    <p className="actual-date-event">{event.date}</p>
                 </div>
             </div>
         </div>
