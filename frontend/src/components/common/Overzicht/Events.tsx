@@ -38,7 +38,7 @@ const Events = () => {
       </header>
 
       <div className="table-wrapper">
-        {evenementen.map(({ id, name, place, date}) => (
+        {evenementen.map(({ id, name }) => (
           <div key={id} className="event-card">
             <h1 className="event-id">{id}</h1>
             <h2 className="event-name">{name}</h2>

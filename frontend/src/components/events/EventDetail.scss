@@ -1,4 +1,4 @@
-.Border-line{
+.Border-line-event{
     background-color: black;
     width: 430px;
     height: 570px;
@@ -10,7 +10,7 @@
     z-index: 1;
 }
 
-.main-card {
+.main-card-event {
     background-color: beige;
     width: 480px;
     height: 600px;
@@ -23,7 +23,7 @@
     border-radius: 20px;
 }
 
-.inner{
+.inner-event{
     background-color: beige;
     width: 415px;
     height: 557px;
@@ -35,7 +35,7 @@
     z-index: 2;
 }
 
-.underscore {
+.underscore-event {
     background-color: black;
     width: 340px;
     height: 5px; 
@@ -82,14 +82,14 @@
 }
 
 
-.place{
+.place-event{
     font-weight: bold;
     font-size: 40px;
     margin-left: 190px;
     margin-top: 280px;
     z-index: 3;
 }
-.place-outer{
+.place-outer-event{
     background-color: black;
     margin-left: 100px;
     height: 70px;
@@ -97,7 +97,7 @@
     z-index: 3;
     border-radius: 5px;
 }
-.place-inner{
+.place-inner-event{
     background-color: beige;
     margin-top: 5px;
     margin-left: 5px;
@@ -106,14 +106,14 @@
     z-index: 3;
     border-radius: 5px;
 }
-.date{
+.date-event{
    font-weight: bold;
     font-size: 40px;
     z-index: 3;
     margin-left: 180px;
     margin-top: 0px;
 }
-.date-outer{
+.date-outer-event{
     background-color: black;
     margin-left: 100px;
     height: 70px;
@@ -121,7 +121,7 @@
     z-index: 3;
     border-radius: 5px;
 }
-.date-inner{
+.date-inner-event{
     background-color: beige;
     margin-top: 5px;
     margin-left: 5px;
@@ -131,16 +131,53 @@
     border-radius: 5px;
 }
 
-.actual-place{
+.actual-place-event{
     font-weight: bold;
     font-size: 30px;
     text-align: center;
     justify-content: center;
 }
 
-.actual-date{
+.actual-date-event{
     font-weight: bold;
     font-size: 30px;
     text-align: center;
     justify-content: center;
 }
+
+
+.admin-panel-users table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.paneel-Card-users{
+    box-shadow: 0px 0px 5px green;
+}
+.admin-panel-users td {
+  padding: 9px;
+  text-align: center;
+  background-color: beige;
+}
+
+.admin-panel-users th {
+  padding: 15px;
+  margin-left: -50px;
+  text-align: left;
+  background-color: beige;
+}
+
+.main-users{
+    transform: translate(0%, -400%);
+}
+.admin-panel-users {
+    position: relative;
+    height: 150px;
+    width: 200px;       /* give some width */
+    background-color: beige;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px beige;
+    
+    overflow-y: auto;   /* vertical scroll */
+    overflow-x: auto; /* hide horizontal scroll */
+}
+
