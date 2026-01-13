@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OfficeCalendar.Api.Models;
 using OfficeCalendar.Api.Repositories;
+using OfficeCalendar.Api.Services;
 
 namespace OfficeCalendar.Api.Controllers
 {
@@ -10,14 +11,14 @@ namespace OfficeCalendar.Api.Controllers
     [Route("api/[controller]")]
     public class ReviewController : ControllerBase
     {
-        private readonly GenericRepository<Review> _repository;
+        private readonly ReviewService _service;
         private readonly ILogger<ReviewController> _logger;
 
         public ReviewController(
-            GenericRepository<Review> repository,
+            ReviewService service,
             ILogger<ReviewController> logger)
         {
-            _repository = repository;
+            _service = service;
             _logger = logger;
         }
 
@@ -27,32 +28,7 @@ namespace OfficeCalendar.Api.Controllers
         {
             try
             {
-                _logger.LogInformation("Received request - eventId: {eventId}", eventId);
-
-                if (!eventId.HasValue || eventId.Value <= 0)
-                {
-                    return BadRequest(new { message = "Valid eventId parameter is required" });
-                } 
-
-                _logger.LogInformation("Querying work status for event {EventId}", eventId);
-
-               var reviews = await _repository.QueryAsync(
-                    @"SELECT 
-                        r.id AS Id,
-                        r.user_id AS UserId,
-                        r.event_id AS EventId,
-                        r.text_review AS TextReview,
-                        r.created_at AS CreatedAt,
-                        r.updated_at AS UpdatedAt
-                    FROM Reviews r
-                    JOIN Events e ON r.event_id = e.id
-                    WHERE r.event_id = @EventId AND e.id = @EventId
-                    ORDER BY r.created_at DESC",
-                    new { EventId = eventId }
-                );
-
-                _logger.LogInformation("Found {Count} reviews", reviews.Count);
-
+                var reviews = await _service.GetReviewPerEventService( eventId ?? 0 );
                 return Ok(reviews);
             }
             catch (Exception ex)
@@ -65,27 +41,22 @@ namespace OfficeCalendar.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Review>> GetById(int id)
         {
-            var review = await _repository.GetByIdAsync(id);
-            if (review == null) return NotFound();
-            return Ok(review);
+            try
+            {
+                var review = await _service.GetByIdService(id);
+                return Ok(review);
+            }
+            catch(KeyNotFoundException)
+            {
+                return NotFound();
+            }
         }
         [HttpPost]
         public async Task<ActionResult<Review>> Create([FromBody] CreateReviewDto dto)
         {
             try
             {
-                var review = new Review
-                {
-                    UserId = dto.UserId,
-                    EventId = dto.EventId,
-                    TextReview = dto.TextReview,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = null
-                };
-
-                var id = await _repository.InsertAsync(review);
-                var created = await _repository.GetByIdAsync(id);
-
+                var (id, created) = await _service.CreateService(dto);
                 return CreatedAtAction(nameof(GetById), new { id }, created);
             }
             catch (Exception ex)
@@ -100,15 +71,12 @@ namespace OfficeCalendar.Api.Controllers
         {
             try
             {
-                var existing = await _repository.GetByIdAsync(id);
-                if (existing == null) return NotFound();
-                existing.TextReview = dto.TextReview;
-                existing.UpdatedAt = DateTime.UtcNow;
-
-                var success = await _repository.UpdateAsync(id, existing);
-                if (!success) return NotFound();
-
+                var updated = await _service.UpdateService(id, dto);
                 return NoContent();
+            }
+            catch(KeyNotFoundException)
+            {
+                return NotFound();
             }
             catch (Exception ex)
             {
@@ -122,9 +90,12 @@ namespace OfficeCalendar.Api.Controllers
         {
             try
             {
-                var success = await _repository.DeleteAsync(id);
-                if (!success) return NotFound();
+                var success = await _service.DeleteService(id);
                 return NoContent();
+            }
+            catch(KeyNotFoundException)
+            {
+                return NotFound();
             }
             catch (Exception ex)
             {
@@ -132,14 +103,5 @@ namespace OfficeCalendar.Api.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
-    }
-
-    public class CreateReviewDto
-    {
-        public int UserId { get; set; }
-        public int EventId { get; set; }
-        public string Date { get; set; } = string.Empty;
-        public string Title { get; set; } = string.Empty;
-        public string TextReview { get; set; } = string.Empty;
     }
 }
