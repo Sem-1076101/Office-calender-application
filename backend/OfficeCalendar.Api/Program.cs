@@ -101,6 +101,10 @@ builder.Services.AddSingleton<DatabaseService>();
 
 // Auth Service
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<ReviewService>();
+builder.Services.AddScoped<EventParticipationsService>();
+builder.Services.AddScoped<UsersService>();
+builder.Services.AddScoped<EventsService>();
 
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();

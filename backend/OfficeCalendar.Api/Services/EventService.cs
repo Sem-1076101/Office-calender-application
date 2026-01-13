@@ -1,0 +1,205 @@
+// Controllers/EventsController.cs
+
+using Microsoft.AspNetCore.Mvc;
+using OfficeCalendar.Api.Models;
+using OfficeCalendar.Api.Models.DTOs;
+using OfficeCalendar.Api.Repositories;
+using System.Security.Claims;
+using Dapper;
+using Npgsql;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+namespace OfficeCalendar.Api.Services
+{
+    public class EventsService
+    {
+        private readonly GenericRepository<Event> _eventRepository;
+        private readonly IConfiguration _configuration;
+
+        public EventsService(GenericRepository<Event> eventRepository, IConfiguration configuration)
+        {
+            _eventRepository = eventRepository;
+            _configuration = configuration;
+        }
+
+        public async Task<List<EventWithRoomDto>> GetAllService()
+        {
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using var connection = new NpgsqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            var results = await connection.QueryAsync(@"
+            SELECT 
+                e.id AS ""EventId"",
+                e.title AS ""Title"",
+                e.description AS ""Description"",
+                e.starts_at AS ""StartsAt"",
+                e.ends_at AS ""EndsAt"",
+                e.status AS ""Status"",
+                e.created_by AS ""CreatedBy"",
+                e.deleted_at AS ""DeletedAt"",
+                e.created_at AS ""CreatedAt"",
+                rb.id AS ""BookingId"",
+                rb.room_id AS ""RoomId"",
+                r.name AS ""RoomName"",
+                r.room_number AS ""RoomNumber"",
+                r.capacity AS ""Capacity""
+            FROM events e
+            LEFT JOIN room_bookings rb ON e.id = rb.event_id
+            LEFT JOIN rooms r ON rb.room_id = r.id
+            WHERE e.deleted_at IS NULL 
+            ORDER BY e.starts_at DESC
+        ");
+
+            var eventsList = new List<EventWithRoomDto>();
+            var processedEventIds = new HashSet<int>();
+
+            foreach (var row in results)
+            {
+                int eventId = (int)row.EventId;
+
+                if (processedEventIds.Contains(eventId))
+                    continue;
+
+                var eventDto = new EventWithRoomDto
+                {
+                    Id = (int)row.EventId,
+                    Title = (string)row.Title ?? string.Empty,
+                    Description = row.Description,
+                    StartsAt = (DateTime)row.StartsAt,
+                    EndsAt = (DateTime)row.EndsAt,
+                    Status = row.Status,
+                    CreatedBy = row.CreatedBy != null ? (int)row.CreatedBy : 0, // NULL safe
+                    DeletedAt = row.DeletedAt,
+                    CreatedAt = (DateTime)row.CreatedAt
+                };
+
+                // Check if room info exists
+                if (row.RoomId != null && row.BookingId != null)
+                {
+                    eventDto.Room = new RoomInfoDto
+                    {
+                        BookingId = (int)row.BookingId,
+                        RoomId = (int)row.RoomId,
+                        Name = row.RoomName ?? string.Empty,
+                        RoomNumber = row.RoomNumber,
+                        Capacity = row.Capacity // Capacity is nullable in DTO
+                    };
+                }
+
+                eventsList.Add(eventDto);
+                processedEventIds.Add(eventId);
+            }
+
+            return eventsList;
+        }
+
+        public async Task<EventWithRoomDto> GetByIdService(int id)
+        {
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using var connection = new NpgsqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            var results = await connection.QueryAsync(@"
+            SELECT 
+                e.id AS ""EventId"",
+                e.title AS ""Title"",
+                e.description AS ""Description"",
+                e.starts_at AS ""StartsAt"",
+                e.ends_at AS ""EndsAt"",
+                e.status AS ""Status"",
+                e.created_by AS ""CreatedBy"",
+                e.deleted_at AS ""DeletedAt"",
+                e.created_at AS ""CreatedAt"",
+                rb.id AS ""BookingId"",
+                rb.room_id AS ""RoomId"",
+                r.name AS ""RoomName"",
+                r.room_number AS ""RoomNumber"",
+                r.capacity AS ""Capacity""
+            FROM events e
+            LEFT JOIN room_bookings rb ON e.id = rb.event_id
+            LEFT JOIN rooms r ON rb.room_id = r.id
+            WHERE e.id = @Id AND e.deleted_at IS NULL
+        ", new { Id = id });
+
+            var row = results.FirstOrDefault();
+            if (row == null) throw new KeyNotFoundException();
+
+            var eventDto = new EventWithRoomDto
+            {
+                Id = (int)row.EventId,
+                Title = (string)row.Title ?? string.Empty,
+                Description = row.Description,
+                StartsAt = (DateTime)row.StartsAt,
+                EndsAt = (DateTime)row.EndsAt,
+                Status = row.Status,
+                CreatedBy = row.CreatedBy != null ? (int)row.CreatedBy : 0, // NULL safe
+                DeletedAt = row.DeletedAt,
+                CreatedAt = (DateTime)row.CreatedAt
+            };
+
+            if (row.RoomId != null && row.BookingId != null)
+            {
+                eventDto.Room = new RoomInfoDto
+                {
+                    BookingId = (int)row.BookingId,
+                    RoomId = (int)row.RoomId,
+                    Name = row.RoomName ?? string.Empty,
+                    RoomNumber = row.RoomNumber,
+                    Capacity = row.Capacity
+                };
+            }
+
+            return eventDto;
+        }
+
+        public async Task<(int id, EventWithRoomDto created)> CreateService([FromBody] Event evt, ClaimsPrincipal user)
+        {
+            // check if user is logged in and the id is found
+            var userIdClaim = user.FindFirst("userId");
+            if (userIdClaim == null)
+            {
+                throw new UnauthorizedAccessException("User not authenticated (eventController)");
+            }
+
+            // push the id from the person that made de event
+            evt.CreatedBy = int.Parse(userIdClaim.Value);
+            evt.CreatedAt = DateTime.UtcNow;
+            var id = await _eventRepository.InsertAsync(evt);
+
+            var created = await GetByIdService(id);
+            return (id, created);
+        }
+
+        public async Task<bool> UpdateService(int id, [FromBody] Event evt)
+        {
+            var success = await _eventRepository.UpdateAsync(id, evt);
+            if (!success) throw new KeyNotFoundException();
+            return success;
+        }
+
+        public async Task<Event> DeleteService(int id)
+        {
+            var evt = await _eventRepository.QueryFirstOrDefaultAsync(@"
+                SELECT 
+                    id AS Id,
+                    title AS Title,
+                    description AS Description,
+                    starts_at AS StartsAt,
+                    ends_at AS EndsAt,
+                    status AS Status,
+                    created_by AS CreatedBy,
+                    deleted_at AS DeletedAt,
+                    created_at AS CreatedAt
+                FROM events 
+                WHERE id = @Id
+            ", new { Id = id });
+
+            if (evt == null) throw new KeyNotFoundException();
+
+            evt.DeletedAt = DateTime.UtcNow;
+            await _eventRepository.UpdateAsync(id, evt);
+            return evt;
+        }
+    }
+}
